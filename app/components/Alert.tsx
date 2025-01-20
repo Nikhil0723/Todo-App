@@ -20,8 +20,8 @@ export const DevelopmentAlert = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 p-4 bg-yellow-500 z-50">
-      <div className="flex justify-between items-end">
+    <div className="fixed top-0 left-0 right-0 p-2 bg-yellow-500 z-50">
+      <div className="flex justify-between items-center">
         <p className="font-semibold">
           🚧 This app is still in development! Some features will be enabled in
           the future.
