@@ -6,13 +6,14 @@ import { createContext, useContext } from "react";
 
 export interface Task {
   id: string;
+  emoji: string;
   done: boolean;
   pinned: boolean;
   name: string;
   description: string;
   color: string;
-  date: string;
-  deadline: string;
+  date: string ;
+  deadline: string | null;
   category: Category[]; 
   lastSave: string;
 }
@@ -24,6 +25,10 @@ interface TaskContextType {
   addTask: (task: Task) => void;
   removeTask: (id: string) => void;
   updateTask: (updatedTask: Task) => void;
+  toggleTaskCompletion: (taskId: string) => void;
+  deleteSelectedTasks: (selectedIds: string[]) => void;
+  deleteDoneTasks: () => void;
+  deleteAllTasks: () => void; 
 }
 
 // Create a context for task data and task actions

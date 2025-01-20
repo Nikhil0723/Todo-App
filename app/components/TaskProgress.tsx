@@ -68,7 +68,7 @@ export function TaskProgress({
 
         <div className=" ml-4">
           <p className="font-bold">
-            You've completed {completedTasks} out of {totalTasks} tasks.
+            You#39;ve completed {completedTasks} out of {totalTasks} tasks.
           </p>
           {percentage === 100 ? (
             <p>Congratulations! All tasks completed!</p>

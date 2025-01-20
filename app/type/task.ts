@@ -8,13 +8,14 @@ export interface Category {
   
   export interface Task {
     id: string;
+    emoji: string;
     done: boolean;
     pinned: boolean;
     name: string;
     description: string;
     color: string;
     date: string;
-    deadline: string;
+    deadline: string | null;
     category: Category[];
     lastSave: string;
   }

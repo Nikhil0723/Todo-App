@@ -14,23 +14,16 @@ import { Separator } from "@/components/ui/separator";
 export const Logout = () => {
   return (
     <Dialog>
-      <DialogTrigger className=" w-full">
-        <Button
-          variant="outline"
-          className="w-full justify-start text-lg border-none font-medium py-6 shadow-none gap-3 rounded-xl"
-        >
-          <LogOut size={40} strokeWidth={1.5} />
-          Logout
-        </Button>
+      <DialogTrigger className="w-full flex  justify-start text-base border-none font-medium px-4 py-4 shadow-none gap-3 rounded-xl  hover:bg-zinc-100">
+        <LogOut size={24} strokeWidth={1.5} />
+        Logout
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader className=" flex flex-row items-center gap-4 ">
-          <LogOut size={50} className=" border p-3 rounded-2xl " />
-          <div>
-            <DialogTitle className="mb-2 text-xl font-semibold">
-              Logout Confirmation
-            </DialogTitle>
-          </div>
+        <DialogHeader className=" ">
+          <DialogTitle className="flex flex-row items-center gap-4 mb-2 text-xl font-semibold">
+            <LogOut size={50} className=" border p-3 rounded-2xl " />
+            Logout Confirmation
+          </DialogTitle>
         </DialogHeader>
         <Separator />
         <h1 className=" text-base">

@@ -50,8 +50,48 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     saveTasksToLocalStorage(updatedTasks);
   };
 
+  // Toggle task completion
+  const toggleTaskCompletion = (taskId: string) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+
+  // Delete selected tasks
+  const deleteSelectedTasks = (selectedIds: string[]) => {
+    const updatedTasks = tasks.filter((task) => !selectedIds.includes(task.id));
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
+  };
+
+  // Delete all done tasks
+  const deleteDoneTasks = () => {
+    const updatedTasks = tasks.filter((task) => !task.done);
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
+  };
+
+  // Delete all tasks
+  const deleteAllTasks = () => {
+    setTasks([]);
+    saveTasksToLocalStorage([]);
+  };
+
   return (
-    <TaskContext.Provider value={{ tasks, addTask, removeTask, updateTask }}>
+    <TaskContext.Provider
+      value={{
+        tasks,
+        addTask,
+        removeTask,
+        updateTask,
+        toggleTaskCompletion,
+        deleteSelectedTasks,
+        deleteDoneTasks,
+        deleteAllTasks,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );

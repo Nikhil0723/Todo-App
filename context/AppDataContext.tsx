@@ -2,11 +2,17 @@
 import { createContext, useContext } from "react";
 
 // Define the structure of your app data
+export interface Category {
+  id: string;
+  name: string;
+  emoji: string;
+  color: string;
+}
 export interface AppData {
   username: string;
   backgroundColor: string;
   profileImage: string;
-  categories: string[];
+  categories: Category[];
   taskColors: string[];
 }
 

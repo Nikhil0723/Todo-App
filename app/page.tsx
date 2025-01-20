@@ -1,5 +1,5 @@
 "use client";
-import { Search, X } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 import { TaskProgress } from "./components";
 import { useState } from "react";
 import { TaskList } from "./components/tasks/TaskList";
@@ -22,8 +22,23 @@ export default function Home() {
     setInputValue("");
   };
 
+  if (totalTasks === 0) {
+    return (
+      <div className="flex items-center justify-center flex-col h-[calc(100vh-4rem)]">
+        <p>You don#39;t have any tasks yet</p>
+        <p>Click on the + button to add one</p>
+        <a
+          href="/add"
+          className="fixed bottom-10 right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+        >
+          <Plus size={40} />
+        </a>
+      </div>
+    );
+  }
+
   return (
-    <div className="  max-w-screen-md h-6 mx-auto  mt-5 px-4 lg:px-8">
+    <div className="max-w-screen-md h-6 mx-auto mt-5 px-4 lg:px-8">
       <TaskProgress
         percentage={percentage}
         totalTasks={totalTasks}
@@ -48,8 +63,14 @@ export default function Home() {
       </div>
 
       <div>
-        <TaskList />
+        <TaskList searchQuery={inputValue} />
       </div>
+      <a
+        href="/add"
+        className="fixed bottom-10 right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+      >
+        <Plus size={40} />
+      </a>
     </div>
   );
 }

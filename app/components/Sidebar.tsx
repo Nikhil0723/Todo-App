@@ -38,7 +38,7 @@ export const Sidebar = () => {
     {
       label: "Delete Tasks",
       icon: <IoMdTrash size={24} />,
-      route: "/delete-tasks",
+      route: "/delete",
     },
     {
       label: "Transfer Tasks",

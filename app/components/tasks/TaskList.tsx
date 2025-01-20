@@ -1,19 +1,27 @@
 import React from "react";
-import { TaskItem } from "./TaskItem";
 import { useTaskContext } from "@/context/TaskContext";
-import { Task } from "@/app/type/task";
-export const TaskList: React.FC = () => {
-  // Fetch tasks from the global state
+import { TaskItem } from "./TaskItem";
+
+interface TaskListProps {
+  searchQuery: string; // Accept searchQuery as a prop
+}
+
+export const TaskList = ({ searchQuery }: TaskListProps) => {
   const { tasks } = useTaskContext();
 
+  const filteredTasks = tasks.filter(
+    (task) =>
+      task.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="task-list flex flex-col space-y-3">
-      {tasks.length > 0 ? (
-        tasks.map((task: Task) => <TaskItem key={task.id} task={task} />)
-      ) : (
-        <p className="text-gray-500">
-          No tasks available. Start by adding one!
-        </p>
+    <div className=" flex flex-col gap-4">
+      {filteredTasks.map((task) => (
+        <TaskItem key={task.id} task={task} searchQuery={searchQuery} />
+      ))}
+      {filteredTasks.length === 0 && (
+        <p className="text-center text-gray-500 mt-4">No tasks found</p>
       )}
     </div>
   );

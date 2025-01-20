@@ -5,6 +5,10 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+.bg-\[\$\{\}\] {
+  background-color: #ffffff; 
+}
+
 
 @layer base {
   :root {

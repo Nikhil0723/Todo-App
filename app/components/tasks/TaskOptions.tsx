@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Popover,
@@ -5,7 +6,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -18,36 +18,32 @@ import {
   Repeat,
   Trash2,
 } from "lucide-react";
-
-interface MenuItem {
-  label: string;
-  icon: React.ReactNode;
-  action: () => void; // Action to perform on button click
-}
-
+import { useRouter } from "next/navigation";
+import { useTaskContext } from "@/context/TaskContext"; // Import the context
 interface TaskOptionsProps {
-  isDone: boolean;
-  isPinned: boolean;
-  onToggleDone: () => void;
-  onTogglePinned: () => void;
+  taskId: string; // Accept only taskId as a prop
 }
 
-export const TaskOptions: React.FC<TaskOptionsProps> = ({
-  isDone,
-  isPinned,
-  onToggleDone,
-  onTogglePinned,
-}) => {
-  const menuItems: MenuItem[] = [
+export const TaskOptions: React.FC<TaskOptionsProps> = ({ taskId }) => {
+  const router = useRouter();
+  const { toggleTaskCompletion, removeTask } = useTaskContext();
+
+  const showDetail = () => {
+    router.push(`/task/${taskId}`); // Redirect to the task
+  };
+
+  const menuItems = [
     {
-      label: isDone ? "Mark as Not Done" : "Mark as Done",
+      label: "Mark as Done",
       icon: <Check />,
-      action: onToggleDone, // Use the prop function
+      action: () => toggleTaskCompletion(taskId), // Call toggleTaskCompletion with taskId
     },
     {
-      label: isPinned ? "Unpin" : "Pin",
+      label: "Pin",
       icon: <Pin />,
-      action: onTogglePinned, // Use the prop function
+      action: () => {
+        console.log(" Pined Task");
+      },
     },
     {
       label: "Select",
@@ -60,7 +56,7 @@ export const TaskOptions: React.FC<TaskOptionsProps> = ({
       label: "Task Detail",
       icon: <FileText />,
       action: () => {
-        console.log("Task Details");
+        showDetail();
       },
     },
     {
@@ -94,16 +90,14 @@ export const TaskOptions: React.FC<TaskOptionsProps> = ({
     {
       label: "Delete",
       icon: <Trash2 />,
-      action: () => {
-        console.log("Delete Task");
-      },
+      action: () => removeTask(taskId),
     },
   ];
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="rounded-full hover:bg-gray-200">
+        <button className="rounded-full w-8 h-8 flex items-center justify-center bg-opacity-0 bg-gray-100 hover:bg-opacity-15 ">
           <HiOutlineDotsVertical className="text-lg md:text-2xl" />
         </button>
       </PopoverTrigger>

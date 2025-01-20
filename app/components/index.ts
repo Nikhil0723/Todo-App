@@ -4,5 +4,3 @@ export { Sidebar } from "./Sidebar";
 export { MenuButton } from "./MenuButton";
 export { Setting } from "./Setting";
 export { TaskProgress } from "./TaskProgress";
-export { ColorPicker } from "./ColorPicker";
-export { MultiSelect } from "./MultiSelector";

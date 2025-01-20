@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className=" bg-[#EDEEF6] ">
         <TaskProvider>
           <AppDataProvider>
-            <div className=" max-w-screen-lg mx-auto">
+            <div className=" max-w-screen-lg mx-auto ">
               <Navbar />
               {children}
             </div>
