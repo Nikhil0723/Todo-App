@@ -41,7 +41,7 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
       {/* Main Task Item Container */}
       <div
         style={{ backgroundColor: task.color }}
-        className={`relative z-10 rounded-3xl p-2 text-white flex items-center justify-between space-x-3 transition-all duration-300 ${
+        className={`relative z-10 rounded-3xl md:rounded-3xl p-3 text-white flex items-center justify-between space-x-3 transition-all duration-300 ${
           task.done
             ? " line-through opacity-80 border-l-8 border-[#41EC5D]"
             : ""

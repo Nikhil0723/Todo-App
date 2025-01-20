@@ -25,7 +25,7 @@ export default function Home() {
   if (totalTasks === 0) {
     return (
       <div className="flex items-center justify-center flex-col h-[calc(100vh-4rem)]">
-        <p>You don&#39;t have any tasks yet</p>
+        <p className=" font-bold text-xl">You don&#39;t have any tasks yet</p>
         <p>
           Click on the <b>+</b> button to add one
         </p>
