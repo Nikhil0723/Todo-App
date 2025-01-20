@@ -37,7 +37,7 @@ export function TaskProgress({
 
   return (
     <div className="text-lg">
-      <div className="w-full border  border-[#B558FF] p-3 flex items-center justify-start space-x-3 rounded-3xl">
+      <div className="w-full border  border-[#B558FF] md:p-3 flex items-center justify-start md:space-x-3 rounded-3xl">
         <ChartContainer config={chartConfig} className="h-24 w-24">
           <RadialBarChart
             data={chartData}
@@ -66,9 +66,9 @@ export function TaskProgress({
           </RadialBarChart>
         </ChartContainer>
 
-        <div className=" ml-4">
+        <div className="  text-sm">
           <p className="font-bold">
-            You#39;ve completed {completedTasks} out of {totalTasks} tasks.
+            You&#39;ve completed {completedTasks} out of {totalTasks} tasks.
           </p>
           {percentage === 100 ? (
             <p>Congratulations! All tasks completed!</p>

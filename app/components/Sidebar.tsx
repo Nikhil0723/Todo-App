@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import Image from "next/image";
 import { MenuButton } from "./MenuButton";
 import {
@@ -56,6 +56,7 @@ export const Sidebar = () => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </SheetTrigger>
+
         <SheetContent className="rounded-tl-3xl p-6">
           {/* Header Section */}
           <div className="flex items-center gap-3 mb-6">

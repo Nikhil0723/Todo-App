@@ -83,14 +83,18 @@ const CreateTaskForm: React.FC = () => {
     setDeadline("");
     setError("");
 
-    router.push("/"); 
+    router.push("/");
   };
 
   return (
-    <div className=" max-w-md mx-auto">
+    <div className="max-w-md mx-auto p-4 sm:p-6">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <h2 className="text-xl font-bold">Create New Task</h2>
-        {error && <p className="text-red-500">{error}</p>}
+        <h2 className="text-xl font-bold text-center sm:text-left">
+          Create New Task
+        </h2>
+        {error && (
+          <p className="text-red-500 text-center sm:text-left">{error}</p>
+        )}
 
         {/* Title Input */}
         <div>
@@ -101,6 +105,7 @@ const CreateTaskForm: React.FC = () => {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter task title"
             required
+            className="w-full"
           />
         </div>
 
@@ -112,6 +117,7 @@ const CreateTaskForm: React.FC = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter task description"
+            className="w-full"
           />
         </div>
 
@@ -122,25 +128,29 @@ const CreateTaskForm: React.FC = () => {
             value={selectedColor}
             onValueChange={(value) => setSelectedColor(value)}
           >
-            <SelectTrigger>
-              <SelectValue placeholder="Select a color" />
-            </SelectTrigger>
-            <SelectContent>
-              {appData.taskColors.map((color) => (
-                <SelectItem key={color} value={color}>
-                  <div
-                    className="flex items-center space-x-2"
-                    style={{
-                      backgroundColor: color,
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    <span>{color}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
+            <div className="w-full">
+              {" "}
+              {/* Wrap the Select component with a div to apply className */}
+              <SelectTrigger>
+                <SelectValue placeholder="Select a color" />
+              </SelectTrigger>
+              <SelectContent>
+                {appData.taskColors.map((color) => (
+                  <SelectItem key={color} value={color}>
+                    <div
+                      className="flex items-center space-x-2"
+                      style={{
+                        backgroundColor: color,
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      <span>{color}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </div>
           </Select>
         </div>
 
@@ -182,6 +192,7 @@ const CreateTaskForm: React.FC = () => {
             id="deadline"
             value={deadline || ""}
             onChange={(e) => setDeadline(e.target.value || null)}
+            className="w-full"
           />
         </div>
 

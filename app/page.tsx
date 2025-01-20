@@ -1,6 +1,6 @@
 "use client";
 import { Plus, Search, X } from "lucide-react";
-import { TaskProgress } from "./components";
+import { DevelopmentAlert, TaskProgress } from "./components";
 import { useState } from "react";
 import { TaskList } from "./components/tasks/TaskList";
 import { useTaskContext } from "@/context/TaskContext";
@@ -25,14 +25,17 @@ export default function Home() {
   if (totalTasks === 0) {
     return (
       <div className="flex items-center justify-center flex-col h-[calc(100vh-4rem)]">
-        <p>You don#39;t have any tasks yet</p>
-        <p>Click on the + button to add one</p>
+        <p>You don&#39;t have any tasks yet</p>
+        <p>
+          Click on the <b>+</b> button to add one
+        </p>
         <a
           href="/add"
-          className="fixed bottom-10 right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+          className="fixed bottom-10 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
         >
           <Plus size={40} />
         </a>
+        <DevelopmentAlert/>
       </div>
     );
   }
@@ -67,7 +70,7 @@ export default function Home() {
       </div>
       <a
         href="/add"
-        className="fixed bottom-10 right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+        className="fixed bottom-10 right-5 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
       >
         <Plus size={40} />
       </a>
