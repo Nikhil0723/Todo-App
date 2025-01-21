@@ -4,6 +4,7 @@ import { DevelopmentAlert, TaskProgress } from "./components";
 import { useState } from "react";
 import { TaskList } from "./components/tasks/TaskList";
 import { useTaskContext } from "@/context/TaskContext";
+import Link from "next/link";
 
 export default function Home() {
   const { tasks } = useTaskContext();
@@ -68,12 +69,12 @@ export default function Home() {
       <div>
         <TaskList searchQuery={inputValue} />
       </div>
-      <a
+      <Link
         href="/add"
         className="fixed bottom-10 right-5 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
       >
         <Plus size={40} />
-      </a>
+      </Link>
     </div>
   );
 }
