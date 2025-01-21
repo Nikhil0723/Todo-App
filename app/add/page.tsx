@@ -121,39 +121,6 @@ const CreateTaskForm: React.FC = () => {
           />
         </div>
 
-        {/* Color Selection */}
-        <div>
-          <Label htmlFor="color">Task Color</Label>
-          <Select
-            value={selectedColor}
-            onValueChange={(value) => setSelectedColor(value)}
-          >
-            <div className="w-full">
-              {" "}
-              {/* Wrap the Select component with a div to apply className */}
-              <SelectTrigger>
-                <SelectValue placeholder="Select a color" />
-              </SelectTrigger>
-              <SelectContent>
-                {appData.taskColors.map((color) => (
-                  <SelectItem key={color} value={color}>
-                    <div
-                      className="flex items-center space-x-2"
-                      style={{
-                        backgroundColor: color,
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                      }}
-                    >
-                      <span>{color}</span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </div>
-          </Select>
-        </div>
-
         {/* Category Selection */}
         <div>
           <Label htmlFor="categories">Categories</Label>
@@ -162,6 +129,7 @@ const CreateTaskForm: React.FC = () => {
               <div
                 key={category.id}
                 className="flex items-center space-x-2 bg-[${category.color}] p-2 rounded-md"
+                style={{ backgroundColor: category.color }}
               >
                 <Checkbox
                   id={category.id}
@@ -194,6 +162,38 @@ const CreateTaskForm: React.FC = () => {
             onChange={(e) => setDeadline(e.target.value || null)}
             className="w-full"
           />
+        </div>
+
+        <div>
+          <Label htmlFor="color">Task Color</Label>
+          <Select
+            value={selectedColor}
+            onValueChange={(value) => setSelectedColor(value)}
+          >
+            <div className="w-full">
+              {" "}
+              {/* Wrap the Select component with a div to apply className */}
+              <SelectTrigger>
+                <SelectValue placeholder="Select a color" />
+              </SelectTrigger>
+              <SelectContent>
+                {appData.taskColors.map((color) => (
+                  <SelectItem key={color} value={color}>
+                    <div
+                      className="flex items-center space-x-2"
+                      style={{
+                        backgroundColor: color,
+                        padding: "4px 8px",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      <span>{color}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </div>
+          </Select>
         </div>
 
         {/* Submit Button */}

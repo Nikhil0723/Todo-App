@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Check, Clock5 } from "lucide-react";
 import { TaskOptions } from "./TaskOptions";
 import { Task } from "@/app/type/task";
+import { MdPushPin } from "react-icons/md";
 
 interface TaskItemProps {
   task: Task;
@@ -49,19 +50,25 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
       >
         {/* Completion Toggle */}
         {task.done && (
-          <div className="w-12 h-12 flex items-center justify-center bg-[#f0f0f0] rounded-lg md:w-16 md:h-16 overflow-hidden cursor-pointer">
+          <div className="w-12 h-12 flex items-center justify-center bg-[#f0f0f0] bg-opacity-50  rounded-2xl md:w-16 md:h-16 overflow-hidden cursor-pointer">
             <Check className="text-2xl text-white md:text-3xl" />
           </div>
         )}
 
         {/* Task Content */}
         <div className="flex-1">
+          {task.pinned && (
+            <div className="flex items-center gap-2 text-xs md:text-base opacity-75 p-1 rounded-full">
+              <MdPushPin size={20} />
+              Pinned
+            </div>
+          )}
           <div className="flex items-center justify-between">
             {/* Highlighted Task Name */}
             <p className="font-bold text-base md:text-xl">
               {highlightText(task.name, searchQuery)}
             </p>
-            <p className="text-sm md:text-sm">
+            <p className="text-sm md:text-sm ">
               {new Date(task.date).toLocaleTimeString()}
             </p>
           </div>
@@ -102,6 +109,32 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
               {deadlineDate?.toLocaleString()}
             </p>
           )}
+
+          <div className=" flex items-center gap-2 justify-start flex-wrap">
+            {/* Categories */}
+            {task.category.map((category) => (
+              <div
+                key={category.id}
+                className="flex items-center space-x-2 py-2 px-4 rounded-3xl border-[1px]"
+                style={{
+                  backgroundColor: category.color,
+                  boxShadow: `0 0 20px ${category.color}, 0 0 5px ${category.color}`,
+                }}
+              >
+                <span
+                  className="text-sm font-bold"
+                  style={{
+                    color: category.color,
+                  }}
+                >
+                  <p className="text-white text-sm font-bold">
+                    {String.fromCodePoint(parseInt(category.emoji, 16))}{" "}
+                    {category.name}
+                  </p>
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Options */}

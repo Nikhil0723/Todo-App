@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import TaskContext, { Task } from "./TaskContext";
 
@@ -20,6 +20,7 @@ interface TaskProviderProps {
 
 export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const generateNewId = () => `task-${Date.now()}`;
 
   useEffect(() => {
     // Load tasks from local storage on initial render
@@ -50,6 +51,14 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     saveTasksToLocalStorage(updatedTasks);
   };
 
+  const togglePinnedTask = (taskId: string) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, pinned: !task.pinned } : task
+    );
+    setTasks(sortTasks(updatedTasks));
+    saveTasksToLocalStorage(updatedTasks);
+  };
+
   // Toggle task completion
   const toggleTaskCompletion = (taskId: string) => {
     setTasks((prevTasks) =>
@@ -57,6 +66,22 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         task.id === taskId ? { ...task, done: !task.done } : task
       )
     );
+  };
+
+  const duplicateTask = (taskId: string) => {
+    const taskToDuplicate = tasks.find((task) => task.id === taskId);
+
+    if (taskToDuplicate) {
+      const newTask = {
+        ...taskToDuplicate,
+        id: generateNewId(),
+        date: new Date().toISOString(),
+      };
+      const updatedTasks = [...tasks, newTask];
+
+      setTasks(updatedTasks);
+      saveTasksToLocalStorage(updatedTasks);
+    }
   };
 
   // Delete selected tasks
@@ -79,6 +104,22 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     saveTasksToLocalStorage([]);
   };
 
+  const sortTasks = (tasks: Task[]): Task[] => {
+    return tasks.sort((a, b) => {
+      // First, ensure pinned tasks are always at the top
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+  
+      // Ensure createdAt is a valid number
+      const createdAtA = typeof a.date === 'number' ? a.date : new Date(a.date).getTime();
+      const createdAtB = typeof b.date === 'number' ? b.date : new Date(b.date).getTime();
+  
+      // Sort by creation timestamp for unpinned tasks
+      return createdAtA - createdAtB;
+    });
+  };
+  
+
   return (
     <TaskContext.Provider
       value={{
@@ -90,6 +131,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         deleteSelectedTasks,
         deleteDoneTasks,
         deleteAllTasks,
+        togglePinnedTask,
+        duplicateTask,
       }}
     >
       {children}

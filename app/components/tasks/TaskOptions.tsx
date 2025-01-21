@@ -17,6 +17,8 @@ import {
   Edit,
   Repeat,
   Trash2,
+  PinOff,
+  X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTaskContext } from "@/context/TaskContext"; // Import the context
@@ -26,7 +28,14 @@ interface TaskOptionsProps {
 
 export const TaskOptions: React.FC<TaskOptionsProps> = ({ taskId }) => {
   const router = useRouter();
-  const { toggleTaskCompletion, removeTask } = useTaskContext();
+  const {
+    toggleTaskCompletion,
+    removeTask,
+    togglePinnedTask,
+    duplicateTask,
+    tasks,
+  } = useTaskContext();
+  const task = tasks.find((t) => t.id === taskId); // Find the task with the given ID
 
   const showDetail = () => {
     router.push(`/task/${taskId}`); // Redirect to the task
@@ -34,16 +43,14 @@ export const TaskOptions: React.FC<TaskOptionsProps> = ({ taskId }) => {
 
   const menuItems = [
     {
-      label: "Mark as Done",
-      icon: <Check />,
+      label: task?.done ? "Mark as not Done" : "Mark as Done", // Dynamic label based on isPinned
+      icon: task?.done ? <X /> : <Check />,
       action: () => toggleTaskCompletion(taskId), // Call toggleTaskCompletion with taskId
     },
     {
-      label: "Pin",
-      icon: <Pin />,
-      action: () => {
-        console.log(" Pined Task");
-      },
+      label: task?.pinned ? "Unpin" : "Pin", // Dynamic label based on isPinned
+      icon: task?.pinned ? <PinOff /> : <Pin />,
+      action: () => togglePinnedTask(taskId),
     },
     {
       label: "Select",
@@ -83,9 +90,7 @@ export const TaskOptions: React.FC<TaskOptionsProps> = ({ taskId }) => {
     {
       label: "Duplicate",
       icon: <Repeat />,
-      action: () => {
-        console.log("Duplicate Task");
-      },
+      action: () => duplicateTask(taskId),
     },
     {
       label: "Delete",

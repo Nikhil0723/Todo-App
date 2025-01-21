@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Category } from "@/app/type/task";
 import { createContext, useContext } from "react";
 
@@ -12,12 +12,11 @@ export interface Task {
   name: string;
   description: string;
   color: string;
-  date: string ;
+  date: string;
   deadline: string | null;
-  category: Category[]; 
+  category: Category[];
   lastSave: string;
 }
-
 
 // Create the context with the correct types (task list and actions)
 interface TaskContextType {
@@ -28,7 +27,9 @@ interface TaskContextType {
   toggleTaskCompletion: (taskId: string) => void;
   deleteSelectedTasks: (selectedIds: string[]) => void;
   deleteDoneTasks: () => void;
-  deleteAllTasks: () => void; 
+  deleteAllTasks: () => void;
+  togglePinnedTask: (taskId: string) => void;
+  duplicateTask: (taskId: string) => void;
 }
 
 // Create a context for task data and task actions

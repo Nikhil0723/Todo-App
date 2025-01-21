@@ -31,9 +31,7 @@ export function TaskProgress({
 }: TaskProgressProps) {
   const angle = (percentage * 360) / 100;
 
-  const chartData = [
-    { name: "Progress", value: percentage, fill: "#B558FF" },
-  ];
+  const chartData = [{ name: "Progress", value: percentage, fill: "#B558FF" }];
 
   return (
     <div className="text-lg">
@@ -66,7 +64,7 @@ export function TaskProgress({
           </RadialBarChart>
         </ChartContainer>
 
-        <div className="  text-sm">
+        <div className="  text-sm md:text-lg">
           <p className="font-bold">
             You&#39;ve completed {completedTasks} out of {totalTasks} tasks.
           </p>
