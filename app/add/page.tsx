@@ -18,7 +18,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { v4 as uuidv4 } from "uuid";
 import EmojiPicker from "emoji-picker-react"; // Import the emoji picker component
-import { CirclePlus } from "lucide-react";
 
 const CreateTaskForm: React.FC = () => {
   const router = useRouter();

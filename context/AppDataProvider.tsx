@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { AppData, AppDataContext, Category } from "./AppDataContext";
+import { getAppDataFromLocalStorage } from "@/app/utils/localStorage";
 
 // Default app data (used as fallback when no data is in localStorage)
 const defaultAppData: AppData = {
@@ -20,7 +21,9 @@ interface AppDataProviderProps {
   children: React.ReactNode;
 }
 
-export const AppDataProvider: React.FC<AppDataProviderProps> = ({ children }) => {
+export const AppDataProvider: React.FC<AppDataProviderProps> = ({
+  children,
+}) => {
   // Retrieve appData from localStorage if it exists, otherwise use defaultAppData
   const [appData, setAppData] = useState<AppData>(() => {
     const storedData = localStorage.getItem("appData");
@@ -29,9 +32,13 @@ export const AppDataProvider: React.FC<AppDataProviderProps> = ({ children }) =>
 
   // Update the appData in localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("appData", JSON.stringify(appData));
-  }, [appData]); // Only update localStorage when appData changes
-
+    if (typeof window !== "undefined") {
+      const storedAppData = getAppDataFromLocalStorage();
+      if (storedAppData) {
+        setAppData(storedAppData);
+      }
+    }
+  }, []);
   // Update entire app data
   const updateAppData = (newData: Partial<AppData>) => {
     setAppData((prev) => ({ ...prev, ...newData }));
@@ -59,13 +66,21 @@ export const AppDataProvider: React.FC<AppDataProviderProps> = ({ children }) =>
   const deleteCategory = (categoryId: string) => {
     setAppData((prev) => ({
       ...prev,
-      categories: prev.categories.filter((category) => category.id !== categoryId),
+      categories: prev.categories.filter(
+        (category) => category.id !== categoryId
+      ),
     }));
   };
 
   return (
     <AppDataContext.Provider
-      value={{ appData, updateAppData, addCategory, editCategory, deleteCategory }}
+      value={{
+        appData,
+        updateAppData,
+        addCategory,
+        editCategory,
+        deleteCategory,
+      }}
     >
       {children}
     </AppDataContext.Provider>
