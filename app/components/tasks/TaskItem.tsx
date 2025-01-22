@@ -44,15 +44,22 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
         style={{ backgroundColor: task.color }}
         className={`relative z-10 rounded-3xl md:rounded-3xl p-3 text-white flex items-center justify-between space-x-3 transition-all duration-300 ${
           task.done
-            ? " line-through opacity-80 border-l-8 border-[#41EC5D]"
+            ? "  opacity-80 border-l-8 border-[#41EC5D]"
             : ""
         } md:p-4 md:space-x-5`}
       >
         {/* Completion Toggle */}
         {task.done && (
-          <div className="flex items-center justify-center bg-[#f0f0f0] bg-opacity-50  rounded-2xl md:w-16 md:h-16 overflow-hidden cursor-pointer">
-            {task.emoji || (
-              <Check className="text-2xl text-white md:text-3xl  p-4" size={53} />
+          <div className="flex items-center justify-center bg-[#f0f0f0] bg-opacity-50 rounded-2xl md:w-16 md:h-16 overflow-hidden cursor-pointer">
+            {task.emoji ? (
+              <span className="text-2xl text-white md:text-3xl p-4">
+                {task.emoji}
+              </span>
+            ) : (
+              <Check
+                className="text-2xl text-white md:text-3xl p-4"
+                size={53}
+              />
             )}
           </div>
         )}
@@ -67,7 +74,7 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
           )}
           <div className="flex items-center justify-between">
             {/* Highlighted Task Name */}
-            <p className="font-bold text-base md:text-xl">
+            <p className={`font-bold text-base md:text-xl ${ task.done ? "line-through" : ""}`}>
               {highlightText(task.name, searchQuery)}
             </p>
             <p className="text-sm md:text-sm ">
@@ -78,7 +85,7 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
           {/* Highlighted Task Description */}
           {task?.description?.length <= 100 && (
             <div>
-              <p className="text-sm font-normal md:text-lg md:font-medium">
+              <p className={`text-sm font-normal md:text-lg md:font-medium ${ task.done ? "line-through" : ""}`}>
                 {highlightText(task.description, searchQuery)}
               </p>
             </div>
