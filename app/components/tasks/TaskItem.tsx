@@ -50,8 +50,10 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
       >
         {/* Completion Toggle */}
         {task.done && (
-          <div className="w-12 h-12 flex items-center justify-center bg-[#f0f0f0] bg-opacity-50  rounded-2xl md:w-16 md:h-16 overflow-hidden cursor-pointer">
-            <Check className="text-2xl text-white md:text-3xl" />
+          <div className="flex items-center justify-center bg-[#f0f0f0] bg-opacity-50  rounded-2xl md:w-16 md:h-16 overflow-hidden cursor-pointer">
+            {task.emoji || (
+              <Check className="text-2xl text-white md:text-3xl  p-4" size={53} />
+            )}
           </div>
         )}
 
@@ -110,30 +112,30 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
             </p>
           )}
 
-          <div className=" flex items-center gap-2 justify-start flex-wrap">
+          <div className=" flex items-center gap-2 justify-start flex-wrap mt-3">
             {/* Categories */}
-            {task.category.map((category) => (
-              <div
-                key={category.id}
-                className="flex items-center space-x-2 py-2 px-4 rounded-3xl border-[1px]"
-                style={{
-                  backgroundColor: category.color,
-                  boxShadow: `0 0 20px ${category.color}, 0 0 5px ${category.color}`,
-                }}
-              >
-                <span
-                  className="text-sm font-bold"
-                  style={{
-                    color: category.color,
-                  }}
+            {task.category &&
+              task.category.length > 0 &&
+              task.category.map((category) => (
+                <div
+                  key={category.id}
+                  className="flex items-center space-x-2 px-2 py-1 md:py-2 md:px-4 rounded-3xl border-[1px]"
+                  style={{ backgroundColor: category.color }}
                 >
-                  <p className="text-white text-sm font-bold">
-                    {String.fromCodePoint(parseInt(category.emoji, 16))}{" "}
-                    {category.name}
-                  </p>
-                </span>
-              </div>
-            ))}
+                  <span
+                    className="text-sm font-bold"
+                    style={{ color: category.color }}
+                  >
+                    <p className="text-white text-xs md:text-sm font-bold ">
+                      {category.emoji.startsWith("1f") &&
+                      category.emoji.length === 5
+                        ? String.fromCodePoint(parseInt(category.emoji, 16))
+                        : category.emoji}
+                      {category.name}
+                    </p>
+                  </span>
+                </div>
+              ))}
           </div>
         </div>
 

@@ -1,35 +1,72 @@
-"use client"
-import React, { useState } from "react";
-import AppDataContext, { AppData } from "./AppDataContext";
+"use client";
 
-// Define default app data values
+import React, { useState, useEffect } from "react";
+import { AppData, AppDataContext, Category } from "./AppDataContext";
+
+// Default app data (used as fallback when no data is in localStorage)
 const defaultAppData: AppData = {
   username: "John Doe",
   backgroundColor: "#f0f0f0",
   profileImage: "/path/to/image",
   categories: [
-    { id: "0292cba5-f6e2-41c4-b5a7-c59a0aaecfe3", name: "Work", emoji: "1f3e2", color: "#248eff" },
-    { id: "a47a4af1-d720-41eb-9121-d3728605a62b", name: "Personal", emoji: "1f464", color: "#e843fe" },
-    { id: "393068a9-9db7-4dfa-a00f-cd359f8024e8", name: "Health/Fitness", emoji: "1f4aa", color: "#ffdf3d" },
+    { id: "1", name: "Work", emoji: "😊", color: "#ff5733" },
+    { id: "2", name: "Personal", emoji: "🏡", color: "#33ff57" },
+    { id: "3", name: "Fitness", emoji: "🏋️", color: "#3357ff" },
   ],
-  taskColors: [ "#e843fe","#248eff", "#ffdf3d"],
+  taskColors: ["#ff5733", "#33ff57", "#3357ff", "#ffdf3d", "#e843fe"],
 };
 
-// The AppDataProvider component that provides app data globally
 interface AppDataProviderProps {
   children: React.ReactNode;
 }
 
 export const AppDataProvider: React.FC<AppDataProviderProps> = ({ children }) => {
-  const [appData, setAppData] = useState<AppData>(defaultAppData);
+  // Retrieve appData from localStorage if it exists, otherwise use defaultAppData
+  const [appData, setAppData] = useState<AppData>(() => {
+    const storedData = localStorage.getItem("appData");
+    return storedData ? JSON.parse(storedData) : defaultAppData;
+  });
 
-  // Function to update app data
+  // Update the appData in localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("appData", JSON.stringify(appData));
+  }, [appData]); // Only update localStorage when appData changes
+
+  // Update entire app data
   const updateAppData = (newData: Partial<AppData>) => {
-    setAppData(prev => ({ ...prev, ...newData }));
+    setAppData((prev) => ({ ...prev, ...newData }));
+  };
+
+  // Add a new category
+  const addCategory = (category: Category) => {
+    setAppData((prev) => ({
+      ...prev,
+      categories: [...prev.categories, category],
+    }));
+  };
+
+  // Edit an existing category
+  const editCategory = (updatedCategory: Category) => {
+    setAppData((prev) => ({
+      ...prev,
+      categories: prev.categories.map((category) =>
+        category.id === updatedCategory.id ? updatedCategory : category
+      ),
+    }));
+  };
+
+  // Delete a category by ID
+  const deleteCategory = (categoryId: string) => {
+    setAppData((prev) => ({
+      ...prev,
+      categories: prev.categories.filter((category) => category.id !== categoryId),
+    }));
   };
 
   return (
-    <AppDataContext.Provider value={{ appData, updateAppData }}>
+    <AppDataContext.Provider
+      value={{ appData, updateAppData, addCategory, editCategory, deleteCategory }}
+    >
       {children}
     </AppDataContext.Provider>
   );

@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-
 import { useRouter } from "next/navigation";
 import {
   Select,
@@ -18,18 +17,22 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { v4 as uuidv4 } from "uuid";
+import EmojiPicker from "emoji-picker-react"; // Import the emoji picker component
+import { CirclePlus } from "lucide-react";
 
 const CreateTaskForm: React.FC = () => {
   const router = useRouter();
-  const { appData } = useAppData(); // Access global app data
-  const { addTask } = useTaskContext(); // Access the task context
+  const { appData } = useAppData();
+  const { addTask } = useTaskContext();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedColor, setSelectedColor] = useState(appData.taskColors[0]); // Default to the first color
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]); // Selected category IDs
+  const [selectedColor, setSelectedColor] = useState(appData.taskColors[0]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [deadline, setDeadline] = useState<string | null>(null);
+  const [selectedEmoji, setSelectedEmoji] = useState<string>("😊"); // Store the selected emoji
   const [error, setError] = useState("");
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false); // Manage emoji picker visibility
 
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategories((prev) =>
@@ -37,6 +40,15 @@ const CreateTaskForm: React.FC = () => {
         ? prev.filter((id) => id !== categoryId)
         : [...prev, categoryId]
     );
+  };
+
+  const toggleEmojiPicker = () => {
+    setIsEmojiPickerOpen((prev) => !prev); // Toggle emoji picker visibility
+  };
+
+  const handleEmojiSelect = (emoji: { emoji: string }) => {
+    setSelectedEmoji(emoji.emoji); // Update the selected emoji state
+    setIsEmojiPickerOpen(false); // Close the emoji picker after selection
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -51,7 +63,7 @@ const CreateTaskForm: React.FC = () => {
 
     const newTask = {
       id: uuidv4(),
-      emoji: "",
+      emoji: selectedEmoji, // Use selected emoji here
       name: title,
       description,
       color: selectedColor,
@@ -73,7 +85,7 @@ const CreateTaskForm: React.FC = () => {
       }),
     };
 
-    addTask(newTask); // Add the new task to the global state
+    addTask(newTask);
 
     // Clear form
     setTitle("");
@@ -81,6 +93,7 @@ const CreateTaskForm: React.FC = () => {
     setSelectedColor(appData.taskColors[0]);
     setSelectedCategories([]);
     setDeadline("");
+    setSelectedEmoji(""); // Reset emoji when form is submitted
     setError("");
 
     router.push("/");
@@ -95,6 +108,26 @@ const CreateTaskForm: React.FC = () => {
         {error && (
           <p className="text-red-500 text-center sm:text-left">{error}</p>
         )}
+
+        {/* Emoji Picker */}
+        <div className="flex items-center justify-center space-x-3">
+          <div className="">
+            <div
+              className="text-6xl cursor-pointer text-center"
+              onClick={toggleEmojiPicker}
+            >
+              {selectedEmoji}
+            </div>
+            {isEmojiPickerOpen && (
+              <div>
+                <EmojiPicker
+                  onEmojiClick={handleEmojiSelect}
+                  className=" max-w-sm mx-auto m-4 top-0"
+                />
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* Title Input */}
         <div>
@@ -128,7 +161,7 @@ const CreateTaskForm: React.FC = () => {
             {appData.categories.map((category) => (
               <div
                 key={category.id}
-                className="flex items-center space-x-2 bg-[${category.color}] p-2 rounded-md"
+                className="flex items-center space-x-2 p-2 rounded-md"
                 style={{ backgroundColor: category.color }}
               >
                 <Checkbox
@@ -138,13 +171,11 @@ const CreateTaskForm: React.FC = () => {
                 />
                 <Label htmlFor={category.id}>
                   {category.name}{" "}
-                  <span
-                    className="ml-1"
-                    style={{
-                      color: category.color,
-                    }}
-                  >
-                    {String.fromCodePoint(parseInt(category.emoji, 16))}
+                  <span className="ml-1" style={{ color: category.color }}>
+                    {category.emoji.startsWith("1f") &&
+                    category.emoji.length === 5
+                      ? String.fromCodePoint(parseInt(category.emoji, 16))
+                      : category.emoji}
                   </span>
                 </Label>
               </div>
@@ -164,35 +195,32 @@ const CreateTaskForm: React.FC = () => {
           />
         </div>
 
+        {/* Task Color */}
         <div>
           <Label htmlFor="color">Task Color</Label>
           <Select
             value={selectedColor}
             onValueChange={(value) => setSelectedColor(value)}
           >
-            <div className="w-full">
-              {" "}
-              {/* Wrap the Select component with a div to apply className */}
-              <SelectTrigger>
-                <SelectValue placeholder="Select a color" />
-              </SelectTrigger>
-              <SelectContent>
-                {appData.taskColors.map((color) => (
-                  <SelectItem key={color} value={color}>
-                    <div
-                      className="flex items-center space-x-2"
-                      style={{
-                        backgroundColor: color,
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                      }}
-                    >
-                      <span>{color}</span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </div>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a color" />
+            </SelectTrigger>
+            <SelectContent>
+              {appData.taskColors.map((color) => (
+                <SelectItem key={color} value={color}>
+                  <div
+                    className="flex items-center space-x-2"
+                    style={{
+                      backgroundColor: color,
+                      padding: "4px 8px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <span>{color}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
           </Select>
         </div>
 

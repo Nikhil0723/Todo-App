@@ -41,63 +41,63 @@ export const TaskOptions: React.FC<TaskOptionsProps> = ({ taskId }) => {
     router.push(`/task/${taskId}`); // Redirect to the task
   };
 
-  const menuItems = [
-    {
-      label: task?.done ? "Mark as not Done" : "Mark as Done", // Dynamic label based on isPinned
-      icon: task?.done ? <X /> : <Check />,
-      action: () => toggleTaskCompletion(taskId), // Call toggleTaskCompletion with taskId
-    },
-    {
-      label: task?.pinned ? "Unpin" : "Pin", // Dynamic label based on isPinned
-      icon: task?.pinned ? <PinOff /> : <Pin />,
-      action: () => togglePinnedTask(taskId),
-    },
-    {
-      label: "Select",
-      icon: <FileText />,
-      action: () => {
-        console.log("Select Task");
-      },
-    },
-    {
-      label: "Task Detail",
-      icon: <FileText />,
-      action: () => {
-        showDetail();
-      },
-    },
-    {
-      label: "Read Loud",
-      icon: <Volume />,
-      action: () => {
-        console.log("Read Loud");
-      },
-    },
-    {
-      label: "Share",
-      icon: <Share2 />,
-      action: () => {
-        console.log("Share Task");
-      },
-    },
-    {
-      label: "Edit",
-      icon: <Edit />,
-      action: () => {
-        console.log("Edit Task");
-      },
-    },
-    {
-      label: "Duplicate",
-      icon: <Repeat />,
-      action: () => duplicateTask(taskId),
-    },
-    {
-      label: "Delete",
-      icon: <Trash2 />,
-      action: () => removeTask(taskId),
-    },
-  ];
+  const menuItems = task
+    ? [
+        {
+          label: task.done ? "Mark as not Done" : "Mark as Done",
+          icon: task.done ? <X /> : <Check />,
+          action: () => toggleTaskCompletion(taskId),
+        },
+        {
+          label: task.pinned ? "Unpin" : "Pin",
+          icon: task.pinned ? <PinOff /> : <Pin />,
+          action: () => togglePinnedTask(taskId),
+        },
+        {
+          label: "Select",
+          icon: <FileText />,
+          action: () => {
+            console.log("Select Task");
+          },
+        },
+        {
+          label: "Task Detail",
+          icon: <FileText />,
+          action: showDetail,
+        },
+        {
+          label: "Read Loud",
+          icon: <Volume />,
+          action: () => {
+            console.log("Read Loud");
+          },
+        },
+        {
+          label: "Share",
+          icon: <Share2 />,
+          action: () => {
+            console.log("Share Task");
+          },
+        },
+        {
+          label: "Edit",
+          icon: <Edit />,
+          action: () => {
+            console.log("Edit Task");
+          },
+        },
+        {
+          label: "Duplicate",
+          icon: <Repeat />,
+          action: () => duplicateTask(taskId),
+        },
+        {
+          label: "Delete",
+          icon: <Trash2 />,
+          action: () => removeTask(taskId),
+        },
+      ]
+    : [];
 
   return (
     <Popover>

@@ -1,13 +1,15 @@
-"use client"
+"use client";
+
 import { createContext, useContext } from "react";
 
-// Define the structure of your app data
+// Define AppData structure
 export interface Category {
   id: string;
   name: string;
   emoji: string;
   color: string;
 }
+
 export interface AppData {
   username: string;
   backgroundColor: string;
@@ -16,16 +18,21 @@ export interface AppData {
   taskColors: string[];
 }
 
-// Define a structure for the context value, which includes app data and the updater function
+// Context value structure
 interface AppDataContextType {
   appData: AppData;
   updateAppData: (newData: Partial<AppData>) => void;
+  addCategory: (category: Category) => void;
+  editCategory: (category: Category) => void;
+  deleteCategory: (categoryId: string) => void;
 }
 
-// Create a context with a default value of null
-const AppDataContext = createContext<AppDataContextType | null>(null);
+// Create context
+export const AppDataContext = createContext<AppDataContextType | undefined>(
+  undefined
+);
 
-// Custom hook to use app data context
+// Custom hook
 export const useAppData = () => {
   const context = useContext(AppDataContext);
   if (!context) {
@@ -33,5 +40,3 @@ export const useAppData = () => {
   }
   return context;
 };
-
-export default AppDataContext;
