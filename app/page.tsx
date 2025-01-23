@@ -1,6 +1,6 @@
 "use client";
 import { Plus, Search, X } from "lucide-react";
-import { DevelopmentAlert, TaskProgress } from "./components";
+import { TaskProgress } from "./components";
 import { useState } from "react";
 import { TaskList } from "./components/tasks/TaskList";
 import { useTaskContext } from "@/context/TaskContext";
