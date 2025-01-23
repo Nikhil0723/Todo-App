@@ -29,7 +29,6 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
     saveTasksToLocalStorage(updatedTasks);
   };
 
-
   const removeTask = (id: string) => {
     const updatedTasks = tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);

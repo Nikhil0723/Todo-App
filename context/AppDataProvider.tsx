@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { AppData, AppDataContext, Category } from "./AppDataContext";
-import { getAppDataFromLocalStorage } from "@/app/utils/localStorage";
+import {
+  getAppDataFromLocalStorage,
+  saveAppDataToLocalStorage,
+} from "@/app/utils/localStorage";
 
 // Default app data (used as fallback when no data is in localStorage)
 const defaultAppData: AppData = {
@@ -24,21 +27,20 @@ interface AppDataProviderProps {
 export const AppDataProvider: React.FC<AppDataProviderProps> = ({
   children,
 }) => {
-  // Retrieve appData from localStorage if it exists, otherwise use defaultAppData
-  const [appData, setAppData] = useState<AppData>(() => {
-    const storedData = localStorage.getItem("appData");
-    return storedData ? JSON.parse(storedData) : defaultAppData;
-  });
+  const [appData, setAppData] = useState<AppData>(defaultAppData);
 
-  // Update the appData in localStorage whenever it changes
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedAppData = getAppDataFromLocalStorage();
-      if (storedAppData) {
-        setAppData(storedAppData);
-      }
+    const storedAppData = getAppDataFromLocalStorage();
+    if (storedAppData) {
+      setAppData(storedAppData);
     }
   }, []);
+
+  // Save app data to localStorage whenever it changes
+  useEffect(() => {
+    saveAppDataToLocalStorage(appData);
+  }, [appData]);
+
   // Update entire app data
   const updateAppData = (newData: Partial<AppData>) => {
     setAppData((prev) => ({ ...prev, ...newData }));

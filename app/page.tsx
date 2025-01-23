@@ -32,11 +32,11 @@ export default function Home() {
         </p>
         <Link
           href="/add"
-          className="fixed bottom-10 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+          className=" hidden md:fixed bottom-10 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
         >
           <Plus size={40} />
         </Link>
-        <DevelopmentAlert/>
+        <DevelopmentAlert />
       </div>
     );
   }
@@ -71,7 +71,7 @@ export default function Home() {
       </div>
       <Link
         href="/add"
-        className="fixed bottom-10 right-5 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+        className=" hidden md:fixed bottom-10 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
       >
         <Plus size={40} />
       </Link>

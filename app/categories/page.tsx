@@ -2,17 +2,17 @@
 
 import React, { useState } from "react";
 import { useAppData } from "@/context/AppDataContext";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { Edit, Trash2 } from "lucide-react";
+import EmojiPicker, {  EmojiClickData } from "emoji-picker-react";
+import { Edit, SmilePlus, Trash2 } from "lucide-react";
 
-export const CategoryManager: React.FC = () => {
+const Categories: React.FC = () => {
   const { appData, addCategory, editCategory, deleteCategory } = useAppData();
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [name, setName] = useState<string>("");
   const [color, setColor] = useState<string>(appData.taskColors[0]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [emoji, setEmoji] = useState<string>("😊");
+  const [emoji, setEmoji] = useState<string>("");
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false); // Manage picker visibility
 
   // Handle emoji selection
@@ -115,7 +115,7 @@ export const CategoryManager: React.FC = () => {
               className="text-6xl cursor-pointer text-center"
               onClick={toggleEmojiPicker}
             >
-              {emoji}
+              {emoji || <SmilePlus size={52}/>}
             </div>
             {isEmojiPickerOpen && (
               <div>
@@ -176,4 +176,4 @@ export const CategoryManager: React.FC = () => {
   );
 };
 
-export default CategoryManager;
+export default Categories;

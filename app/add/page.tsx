@@ -18,6 +18,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { v4 as uuidv4 } from "uuid";
 import EmojiPicker from "emoji-picker-react"; // Import the emoji picker component
+import { SmilePlus } from "lucide-react";
 
 const CreateTaskForm: React.FC = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const CreateTaskForm: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState(appData.taskColors[0]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [deadline, setDeadline] = useState<string | null>(null);
-  const [selectedEmoji, setSelectedEmoji] = useState<string>("😊"); // Store the selected emoji
+  const [selectedEmoji, setSelectedEmoji] = useState<string>(""); // Store the selected emoji
   const [error, setError] = useState("");
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false); // Manage emoji picker visibility
 
@@ -115,7 +116,7 @@ const CreateTaskForm: React.FC = () => {
               className="text-6xl cursor-pointer text-center"
               onClick={toggleEmojiPicker}
             >
-              {selectedEmoji}
+              {selectedEmoji || <SmilePlus size={52} />}
             </div>
             {isEmojiPickerOpen && (
               <div>

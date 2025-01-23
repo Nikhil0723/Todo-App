@@ -48,7 +48,7 @@ export const Navbar = () => {
       setTimeout(() => {
         setCurrentQuote((prevQuote) => {
           const currentIndex = quotes.indexOf(prevQuote);
-          const nextIndex = (currentIndex + 1) % quotes.length; // Wrap around to first quote
+          const nextIndex = (currentIndex + 1) % quotes.length;
           return quotes[nextIndex];
         });
         setIsChanging(false);
@@ -57,7 +57,7 @@ export const Navbar = () => {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, []);
+  });
 
   return (
     <div className="flex items-center justify-between mt-5 px-4 lg:px-8">
