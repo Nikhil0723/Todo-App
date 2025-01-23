@@ -60,7 +60,7 @@ export const Navbar = () => {
   });
 
   return (
-    <div className="flex items-center justify-between mt-5 px-4 lg:px-8">
+    <div className="flex items-center justify-between mt-4 px-4 lg:px-8">
       <div>
         {pathname === "/" ? (
           <>

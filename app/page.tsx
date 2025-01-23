@@ -36,7 +36,7 @@ export default function Home() {
         >
           <Plus size={40} />
         </Link>
-        <DevelopmentAlert />
+       
       </div>
     );
   }

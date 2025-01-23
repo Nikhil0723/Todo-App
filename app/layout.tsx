@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { BottomMenuBar, Navbar } from "./components";
+import { BottomMenuBar, DevelopmentAlert, Navbar } from "./components";
 import { TaskProvider } from "@/context/TaskProvider";
 import { AppDataProvider } from "@/context/AppDataProvider";
 
@@ -20,6 +20,7 @@ export default function RootLayout({
         <TaskProvider>
           <AppDataProvider>
             <div className=" max-w-screen-lg mx-auto ">
+            <DevelopmentAlert />
               <Navbar />
               {children}
               <BottomMenuBar />
