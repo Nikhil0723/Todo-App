@@ -32,11 +32,11 @@ export default function Home() {
         </p>
         <Link
           href="/add"
-          className=" hidden md:fixed bottom-10 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+          className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex items-center justify-center p-3 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+          aria-label="Add new task"
         >
-          <Plus size={40} />
+          <Plus className="size-8 md:size-10" aria-hidden="true" />
         </Link>
-       
       </div>
     );
   }
@@ -71,9 +71,10 @@ export default function Home() {
       </div>
       <Link
         href="/add"
-        className=" hidden md:fixed bottom-10 md:right-64 h-auto w-auto bg-[#B558FF] p-4 rounded-full text-white"
+        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex items-center justify-center p-3 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+        aria-label="Add new task"
       >
-        <Plus size={40} />
+        <Plus className="size-8 md:size-10" aria-hidden="true" />
       </Link>
     </div>
   );

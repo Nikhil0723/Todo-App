@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { AppData, AppDataContext, Category } from "./AppDataContext";
 import {
   getAppDataFromLocalStorage,
@@ -74,6 +74,13 @@ export const AppDataProvider: React.FC<AppDataProviderProps> = ({
     }));
   };
 
+  const addTaskColor = useCallback((color: string) => {
+    setAppData(prev => ({
+      ...prev,
+      taskColors: [...new Set([...prev.taskColors, color.toUpperCase()])]
+    }));
+  }, []);
+
   return (
     <AppDataContext.Provider
       value={{
@@ -82,6 +89,7 @@ export const AppDataProvider: React.FC<AppDataProviderProps> = ({
         addCategory,
         editCategory,
         deleteCategory,
+        addTaskColor
       }}
     >
       {children}

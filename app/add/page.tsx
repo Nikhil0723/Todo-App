@@ -100,8 +100,8 @@ const CreateTaskForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 sm:p-6">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="max-w-md mx-auto p-4 sm:p-6 ">
+      <form onSubmit={handleSubmit} className="space-y-6 mb-10" >
         <h2 className="text-xl font-bold text-center sm:text-left">
           Create New Task
         </h2>

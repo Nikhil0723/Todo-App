@@ -25,6 +25,7 @@ interface AppDataContextType {
   addCategory: (category: Category) => void;
   editCategory: (category: Category) => void;
   deleteCategory: (categoryId: string) => void;
+  addTaskColor: (color: string) => void;
 }
 
 // Create context

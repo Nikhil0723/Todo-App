@@ -70,7 +70,7 @@ const Categories: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-6 max-w-md mx-auto w-full m-4">
+    <div className="p-4 space-y-6 max-w-md mx-auto w-full m-4 m-10">
       <h2 className="text-xl font-bold">Manage Categories</h2>
 
       {/* Scrollable Category List */}
