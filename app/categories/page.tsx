@@ -2,18 +2,28 @@
 
 import React, { useState } from "react";
 import { useAppData } from "@/context/AppDataContext";
-import EmojiPicker, {  EmojiClickData } from "emoji-picker-react";
-import { Edit, SmilePlus, Trash2 } from "lucide-react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import { Check, Edit, Plus, SmilePlus, Trash2 } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { HexColorPicker } from "react-colorful";
+import { Label } from "@/components/ui/label";
 
 const Categories: React.FC = () => {
-  const { appData, addCategory, editCategory, deleteCategory } = useAppData();
+  const { appData, addCategory, editCategory, deleteCategory, addTaskColor } =
+    useAppData();
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [name, setName] = useState<string>("");
-  const [color, setColor] = useState<string>(appData.taskColors[0]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [emoji, setEmoji] = useState<string>("");
-  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false); // Manage picker visibility
+  const [emoji, setEmoji] = useState<string>("😊");
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false);
+  const [selectedColor, setSelectedColor] = useState(appData.taskColors[0]);
+  const [newColor, setNewColor] = useState("#3b82f6");
 
   // Handle emoji selection
   const handleEmojiSelect = (emojiObject: EmojiClickData) => {
@@ -21,30 +31,30 @@ const Categories: React.FC = () => {
     setIsEmojiPickerOpen(false);
   };
 
-  // Toggle emoji picker visibility
-  const toggleEmojiPicker = () => {
-    setIsEmojiPickerOpen((prev) => !prev); // Toggle the emoji picker visibility
-  };
-
   // Reset inputs
   const resetInputs = () => {
     setSelectedCategory(null);
     setEmoji("😊");
     setName("");
-    setColor(appData.taskColors[0]);
+    setSelectedColor(appData.taskColors[0]);
     setIsEditing(false);
   };
 
-  // Handle add or update
+  // Handle save category (add or update)
   const handleSaveCategory = () => {
+    if (!name.trim()) {
+      alert("Category name cannot be empty.");
+      return;
+    }
+
     if (isEditing && selectedCategory) {
-      editCategory({ id: selectedCategory, emoji, name, color });
+      editCategory({ id: selectedCategory, emoji, name, color: selectedColor });
     } else {
       const newCategory = {
         id: crypto.randomUUID(),
         emoji,
         name,
-        color,
+        color: selectedColor,
       };
       addCategory(newCategory);
     }
@@ -58,7 +68,7 @@ const Categories: React.FC = () => {
       setSelectedCategory(categoryId);
       setEmoji(category.emoji);
       setName(category.name);
-      setColor(category.color);
+      setSelectedColor(category.color);
       setIsEditing(true);
     }
   };
@@ -69,8 +79,14 @@ const Categories: React.FC = () => {
     if (selectedCategory === categoryId) resetInputs();
   };
 
+  // Handle add new color
+  const handleAddNewColor = () => {
+    addTaskColor(newColor); // Add the new color to the task colors
+    setSelectedColor(newColor); // Set the new color as the selected color
+  };
+
   return (
-    <div className="p-4 space-y-6 max-w-md mx-auto w-full m-4 m-10">
+    <div className="p-4 space-y-6 max-w-md mx-auto w-full m-10">
       <h2 className="text-xl font-bold">Manage Categories</h2>
 
       {/* Scrollable Category List */}
@@ -83,7 +99,7 @@ const Categories: React.FC = () => {
           >
             <div className="flex items-center space-x-3 px-4 py-1">
               <span className="text-4xl">{category.emoji}</span>
-              <span className=" font-semibold">{category.name}</span>
+              <span className="font-semibold">{category.name}</span>
             </div>
             <div className="space-x-2">
               <button
@@ -104,25 +120,23 @@ const Categories: React.FC = () => {
       </div>
 
       {/* Add/Edit Form */}
-      <div className="space-y-4 my-20 ">
-        {/* Emoji Picker */}
-        <h1 className=" text-center font-extrabold text-2xl">
-          Add New Category
+      <div className="space-y-4 my-20">
+        <h1 className="text-center font-extrabold text-2xl">
+          {isEditing ? "Edit Category" : "Add New Category"}
         </h1>
+
+        {/* Emoji Picker */}
         <div className="flex items-center justify-center space-x-3">
-          <div className="">
+          <div>
             <div
               className="text-6xl cursor-pointer text-center"
-              onClick={toggleEmojiPicker}
+              onClick={() => setIsEmojiPickerOpen((prev) => !prev)}
             >
-              {emoji || <SmilePlus size={52}/>}
+              {emoji || <SmilePlus size={52} />}
             </div>
             {isEmojiPickerOpen && (
-              <div>
-                <EmojiPicker
-                  onEmojiClick={handleEmojiSelect}
-                  className=" max-w-sm mx-auto m-4 top-0"
-                />
+              <div className="absolute z-10">
+                <EmojiPicker onEmojiClick={handleEmojiSelect} />
               </div>
             )}
           </div>
@@ -138,24 +152,49 @@ const Categories: React.FC = () => {
         />
 
         {/* Color Selector */}
-        <select
-          className="border rounded px-4 py-2 w-full"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        >
-          {appData.taskColors.map((colorOption, index) => (
-            <option
-              key={index}
-              value={colorOption}
-              style={{ backgroundColor: `${colorOption}` }}
-            >
-              {colorOption}
-            </option>
-          ))}
-        </select>
+        <div>
+          <Label htmlFor="color">Task Color</Label>
+          <div className="flex items-center gap-2">
+            <div className="flex flex-wrap gap-2">
+              {appData.taskColors.map((color) => (
+                <div
+                  key={color}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-2 ${
+                    selectedColor === color
+                      ? "border-gray-500"
+                      : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setSelectedColor(color)}
+                >
+                  {selectedColor === color && (
+                    <Check className="h-4 w-4 text-white" />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Add New Color Button */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-fit">
+                <div className="space-y-4">
+                  <HexColorPicker color={newColor} onChange={setNewColor} />
+                  <Button onClick={handleAddNewColor} className="w-full">
+                    Add Color
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
 
         {/* Buttons */}
-        <div className="flex justify-between gap-28">
+        <div className="flex justify-between gap-4">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded flex-auto"
             onClick={handleSaveCategory}
@@ -164,7 +203,7 @@ const Categories: React.FC = () => {
           </button>
           {isEditing && (
             <button
-              className="bg-gray-500 flex-auto text-white px-4 py-2 rounded"
+              className="bg-gray-500 text-white px-4 py-2 rounded flex-auto"
               onClick={resetInputs}
             >
               Cancel

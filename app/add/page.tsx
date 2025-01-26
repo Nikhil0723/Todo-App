@@ -8,21 +8,20 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { v4 as uuidv4 } from "uuid";
-import EmojiPicker from "emoji-picker-react"; // Import the emoji picker component
-import { SmilePlus } from "lucide-react";
+import EmojiPicker from "emoji-picker-react";
+import { SmilePlus, Plus, Check } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { HexColorPicker } from "react-colorful";
 
-const CreateTaskForm: React.FC = () => {
+const CreateTaskForm = () => {
   const router = useRouter();
-  const { appData } = useAppData();
+  const { appData, addTaskColor } = useAppData();
   const { addTask } = useTaskContext();
 
   const [title, setTitle] = useState("");
@@ -30,9 +29,10 @@ const CreateTaskForm: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState(appData.taskColors[0]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [deadline, setDeadline] = useState<string | null>(null);
-  const [selectedEmoji, setSelectedEmoji] = useState<string>(""); // Store the selected emoji
+  const [selectedEmoji, setSelectedEmoji] = useState<string>("");
   const [error, setError] = useState("");
-  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false); // Manage emoji picker visibility
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false);
+  const [newColor, setNewColor] = useState("#3b82f6"); // Default color for the color picker
 
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategories((prev) =>
@@ -43,12 +43,12 @@ const CreateTaskForm: React.FC = () => {
   };
 
   const toggleEmojiPicker = () => {
-    setIsEmojiPickerOpen((prev) => !prev); // Toggle emoji picker visibility
+    setIsEmojiPickerOpen((prev) => !prev);
   };
 
   const handleEmojiSelect = (emoji: { emoji: string }) => {
-    setSelectedEmoji(emoji.emoji); // Update the selected emoji state
-    setIsEmojiPickerOpen(false); // Close the emoji picker after selection
+    setSelectedEmoji(emoji.emoji);
+    setIsEmojiPickerOpen(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -63,7 +63,7 @@ const CreateTaskForm: React.FC = () => {
 
     const newTask = {
       id: uuidv4(),
-      emoji: selectedEmoji, // Use selected emoji here
+      emoji: selectedEmoji,
       name: title,
       description,
       color: selectedColor,
@@ -93,15 +93,20 @@ const CreateTaskForm: React.FC = () => {
     setSelectedColor(appData.taskColors[0]);
     setSelectedCategories([]);
     setDeadline("");
-    setSelectedEmoji(""); // Reset emoji when form is submitted
+    setSelectedEmoji("");
     setError("");
 
     router.push("/");
   };
 
+  const handleAddNewColor = () => {
+    addTaskColor(newColor); // Add the new color to the task colors
+    setSelectedColor(newColor); // Set the new color as the selected color
+  };
+
   return (
-    <div className="max-w-md mx-auto p-4 sm:p-6 ">
-      <form onSubmit={handleSubmit} className="space-y-6 mb-10" >
+    <div className="max-w-md mx-auto p-4 sm:p-6">
+      <form onSubmit={handleSubmit} className="space-y-6 mb-10">
         <h2 className="text-xl font-bold text-center sm:text-left">
           Create New Task
         </h2>
@@ -111,7 +116,7 @@ const CreateTaskForm: React.FC = () => {
 
         {/* Emoji Picker */}
         <div className="flex items-center justify-center space-x-3">
-          <div className="">
+          <div>
             <div
               className="text-6xl cursor-pointer text-center"
               onClick={toggleEmojiPicker}
@@ -122,7 +127,7 @@ const CreateTaskForm: React.FC = () => {
               <div>
                 <EmojiPicker
                   onEmojiClick={handleEmojiSelect}
-                  className=" max-w-sm mx-auto m-4 top-0"
+                  className="max-w-sm mx-auto m-4 top-0"
                 />
               </div>
             )}
@@ -198,30 +203,39 @@ const CreateTaskForm: React.FC = () => {
         {/* Task Color */}
         <div>
           <Label htmlFor="color">Task Color</Label>
-          <Select
-            value={selectedColor}
-            onValueChange={(value) => setSelectedColor(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select a color" />
-            </SelectTrigger>
-            <SelectContent>
+          <div className="flex items-center gap-2">
+            <div className="flex flex-wrap gap-2">
               {appData.taskColors.map((color) => (
-                <SelectItem key={color} value={color}>
-                  <div
-                    className="flex items-center space-x-2"
-                    style={{
-                      backgroundColor: color,
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    <span>{color}</span>
-                  </div>
-                </SelectItem>
+                <div
+                  key={color}
+                  className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-2 border-transparent hover:border-gray-300"
+                  style={{ backgroundColor: color }}
+                  onClick={() => setSelectedColor(color)}
+                >
+                  {selectedColor === color && (
+                    <Check className="h-4 w-4 text-white" />
+                  )}
+                </div>
               ))}
-            </SelectContent>
-          </Select>
+            </div>
+
+            {/* Add New Color Button */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-fit">
+                <div className="space-y-4">
+                  <HexColorPicker color={newColor} onChange={setNewColor} />
+                  <Button onClick={handleAddNewColor} className="w-full">
+                    Add Color
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
 
         {/* Submit Button */}

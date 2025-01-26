@@ -24,6 +24,8 @@ interface AppDataProviderProps {
   children: React.ReactNode;
 }
 
+const isValidColor = (color: string) => /^#[0-9A-F]{6}$/i.test(color);
+
 export const AppDataProvider: React.FC<AppDataProviderProps> = ({
   children,
 }) => {
@@ -48,10 +50,16 @@ export const AppDataProvider: React.FC<AppDataProviderProps> = ({
 
   // Add a new category
   const addCategory = (category: Category) => {
-    setAppData((prev) => ({
-      ...prev,
-      categories: [...prev.categories, category],
-    }));
+    // Ensure ID is unique
+    const isUnique = !appData.categories.some((cat) => cat.id === category.id);
+    if (isUnique) {
+      setAppData((prev) => ({
+        ...prev,
+        categories: [...prev.categories, category],
+      }));
+    } else {
+      console.error("Category ID must be unique");
+    }
   };
 
   // Edit an existing category
@@ -74,11 +82,16 @@ export const AppDataProvider: React.FC<AppDataProviderProps> = ({
     }));
   };
 
+  // Add a task color with validation
   const addTaskColor = useCallback((color: string) => {
-    setAppData(prev => ({
-      ...prev,
-      taskColors: [...new Set([...prev.taskColors, color.toUpperCase()])]
-    }));
+    if (isValidColor(color)) {
+      setAppData((prev) => ({
+        ...prev,
+        taskColors: [...new Set([...prev.taskColors, color.toUpperCase()])],
+      }));
+    } else {
+      console.error("Invalid color format");
+    }
   }, []);
 
   return (
@@ -89,7 +102,7 @@ export const AppDataProvider: React.FC<AppDataProviderProps> = ({
         addCategory,
         editCategory,
         deleteCategory,
-        addTaskColor
+        addTaskColor,
       }}
     >
       {children}
