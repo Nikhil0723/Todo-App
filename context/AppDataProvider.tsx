@@ -17,7 +17,7 @@ const defaultAppData: AppData = {
     { id: "2", name: "Personal", emoji: "🏡", color: "#33ff57" },
     { id: "3", name: "Fitness", emoji: "🏋️", color: "#3357ff" },
   ],
-  taskColors: ["#ff5733", "#33ff57", "#3357ff", "#ffdf3d", "#e843fe"],
+  taskColors: ["#e843fe", "#ff5733", "#33ff57", "#3357ff", "#ffdf3d"],
 };
 
 interface AppDataProviderProps {

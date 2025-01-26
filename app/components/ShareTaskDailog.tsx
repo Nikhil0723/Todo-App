@@ -29,7 +29,8 @@ export const ShareTaskDialog: React.FC<ShareTaskDialogProps> = ({
   isOpen,
   onClose,
 }) => {
-  const baseUrl = "http://localhost:3000/share";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000/share";
 
   // Encode the task object using encodeURIComponent
   const encodedTask = encodeURIComponent(JSON.stringify(task));
@@ -162,7 +163,12 @@ export const ShareTaskDialog: React.FC<ShareTaskDialogProps> = ({
             <div className="flex flex-col items-center">
               <Label className="block text-sm font-medium">QR Code</Label>
               <div className="p-4 bg-white rounded-lg shadow mt-4">
-                <QRCodeSVG value={shareUrl} size={128} level="H" includeMargin />
+                <QRCodeSVG
+                  value={shareUrl}
+                  size={128}
+                  level="H"
+                  includeMargin
+                />
               </div>
             </div>
           </TabsContent>
