@@ -41,7 +41,6 @@ export const ShareTaskDialog: React.FC<ShareTaskDialogProps> = ({
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      // Add toast notification here if needed
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -162,12 +161,12 @@ export const ShareTaskDialog: React.FC<ShareTaskDialogProps> = ({
           <TabsContent value="qr">
             <div className="flex flex-col items-center">
               <Label className="block text-sm font-medium">QR Code</Label>
-              <div className="p-4 bg-white rounded-lg shadow mt-4">
+              <div className="p-6 bg-white rounded-lg shadow mt-4">
                 <QRCodeSVG
                   value={shareUrl}
-                  size={128}
-                  level="H"
-                  includeMargin
+                  size={400} // Increased size to 400px
+                  level="H" // High error correction
+                  includeMargin 
                 />
               </div>
             </div>
