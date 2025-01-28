@@ -99,7 +99,10 @@ export const Sidebar = () => {
 
             {/* Footer Section */}
             <div className="text-xs text-center">
-              <p>Made with by nikhil0723</p>
+              <p>
+                Made with by{" "}
+                <a href="https://github.com/Nikhil0723" className=" text-blue-600 font-bold cursor-pointer">nikhil0723 </a>{" "}
+              </p>
               <p>Last update: 2 January 2025 at 4:58:07 am</p>
             </div>
           </div>
