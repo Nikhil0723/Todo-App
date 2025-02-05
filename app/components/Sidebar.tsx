@@ -15,10 +15,13 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Setting } from "./Setting";
 import { Logout } from "./Logout";
-import { User } from "lucide-react";
+import { CircleUser, User } from "lucide-react";
 import Link from "next/link";
+import { useAppData } from "@/context/AppDataContext";
 
 export const Sidebar = () => {
+  const { appData } = useAppData();
+
   const menuItems = [
     {
       label: "Menu Tasks",
@@ -52,8 +55,10 @@ export const Sidebar = () => {
       <Sheet>
         <SheetTrigger>
           <Avatar className="h-12 w-12">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={appData?.profileImage} />
+            <AvatarFallback>
+              <CircleUser />
+            </AvatarFallback>
           </Avatar>
         </SheetTrigger>
 
@@ -101,7 +106,12 @@ export const Sidebar = () => {
             <div className="text-xs text-center">
               <p>
                 Made with by{" "}
-                <a href="https://github.com/Nikhil0723" className=" text-blue-600 font-bold cursor-pointer">nikhil0723 </a>{" "}
+                <a
+                  href="https://github.com/Nikhil0723"
+                  className=" text-blue-600 font-bold cursor-pointer"
+                >
+                  nikhil0723{" "}
+                </a>{" "}
               </p>
               <p>Last update: 2 January 2025 at 4:58:07 am</p>
             </div>

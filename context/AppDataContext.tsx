@@ -11,9 +11,8 @@ export interface Category {
 }
 
 export interface AppData {
-  username: string;
-  backgroundColor: string;
-  profileImage: string;
+  username: string | undefined;
+  profileImage: string | undefined;
   categories: Category[];
   taskColors: string[];
 }

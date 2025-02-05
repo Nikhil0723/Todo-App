@@ -9,9 +9,8 @@ import {
 
 // Default app data (used as fallback when no data is in localStorage)
 const defaultAppData: AppData = {
-  username: "John Doe",
-  backgroundColor: "#f0f0f0",
-  profileImage: "/path/to/image",
+  username: undefined,
+  profileImage: undefined,
   categories: [
     { id: "1", name: "Work", emoji: "😊", color: "#ff5733" },
     { id: "2", name: "Personal", emoji: "🏡", color: "#33ff57" },
