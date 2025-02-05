@@ -40,9 +40,9 @@ export const TaskOptions: React.FC<TaskOptionsProps> = ({ taskId }) => {
     duplicateTask,
     tasks,
   } = useTaskContext();
-  const task = tasks.find((t) => t.id === taskId); // Find the task with the given ID
+  const task = tasks.find((t) => t.id === taskId);
 
-  const [isEditDialogOpen, setEditDialogOpen] = useState(false); // Dialog state
+  const [isEditDialogOpen, setEditDialogOpen] = useState(false);
 
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
 

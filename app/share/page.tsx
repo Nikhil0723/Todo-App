@@ -38,11 +38,12 @@ export default function SharePage() {
 
   const handleAddTask = () => {
     if (task) {
-      addTask(task);
+      const newTask = { ...task, date: new Date().toISOString() };
+      addTask(newTask); 
+      console.log(newTask);
     }
     router.push("/");
   };
-
   if (!task) return <div>Loading...</div>;
 
   return (
@@ -56,8 +57,6 @@ export default function SharePage() {
             task.done ? "  opacity-80 border-l-8 border-[#41EC5D]" : ""
           } md:p-4 md:space-x-5`}
         >
-          {/* Completion Toggle */}
-
           {/* Task Content */}
           <div className="flex-1">
             {task.pinned && (
