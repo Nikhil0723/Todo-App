@@ -24,7 +24,7 @@ const ProfileCard = () => {
   const handleSaveUsername = () => {
     if (newUsername.trim() !== "") {
       updateAppData({ username: newUsername });
-      setNewUsername(""); // Clear input
+      setNewUsername(""); 
     }
   };
 
@@ -38,7 +38,7 @@ const ProfileCard = () => {
             <AvatarImage src={appData.profileImage} alt="Profile" />
           ) : (
             <AvatarFallback>
-              <CircleUser className="h-24 w-24 text-gray-400" />
+              <CircleUser className="h-24 w-24 text-blue-400" />
             </AvatarFallback>
           )}
         </Avatar>

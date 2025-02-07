@@ -30,13 +30,13 @@ export default function Home() {
         <p>
           Click on the <b>+</b> button to add one
         </p>
-        <div className=" sm:hidden md:block">
+        <div className="hidden md:flex justify-end w-full mt-4">
           <Link
             href="/add"
-            className=" md:fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50  p-3 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+            className=" fixed bottom-10 z-50 p-2.5 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
             aria-label="Add new task"
           >
-            <Plus className="size-8 md:size-10" aria-hidden="true" />
+            <Plus className="w-6 h-6 md:w-8 md:h-8" aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -71,13 +71,13 @@ export default function Home() {
       <div>
         <TaskList searchQuery={inputValue} />
       </div>
-      <div className=" sm:hidden md:block">
+      <div className="hidden md:block">
         <Link
           href="/add"
-          className=" md:fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50  p-3 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+          className=" fixed bottom-0 z-50 p-2.5 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
           aria-label="Add new task"
         >
-          <Plus className="size-8 md:size-10" aria-hidden="true" />
+          <Plus className="w-6 h-6 md:w-8 md:h-8" aria-hidden="true" />
         </Link>
       </div>
     </div>

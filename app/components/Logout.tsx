@@ -18,6 +18,7 @@ export const Logout = () => {
   const handleLogout = () => {
     localStorage.clear();
     router.push("/");
+    window.location.reload();
   };
 
   return (
