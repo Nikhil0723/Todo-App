@@ -79,7 +79,7 @@ export default function Home() {
       <div className="hidden md:flex w-full justify-end">
         <Link
           href="/add"
-          className=" fixed bottom-8 z-50 p-2.5 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+          className=" fixed bottom-8 right-72 z-50 p-2.5 md:p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
           aria-label="Add new task"
         >
           <Plus className="w-6 h-6 md:w-8 md:h-8" aria-hidden="true" />

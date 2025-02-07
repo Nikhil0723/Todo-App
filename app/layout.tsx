@@ -20,7 +20,6 @@ export default function RootLayout({
         <TaskProvider>
           <AppDataProvider>
             <div className=" max-w-screen-lg mx-auto ">
-            <DevelopmentAlert />
               <Navbar />
               {children}
               <BottomMenuBar />

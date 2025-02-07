@@ -16,7 +16,7 @@ export const TaskList = ({ searchQuery }: TaskListProps) => {
   );
 
   return (
-    <div className=" flex flex-col gap-4">
+    <div className=" flex flex-col gap-4 mb-16">
       {filteredTasks.map((task) => (
         <TaskItem key={task.id} task={task} searchQuery={searchQuery} />
       ))}
