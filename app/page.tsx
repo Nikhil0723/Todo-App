@@ -25,7 +25,7 @@ export default function Home() {
     return (
       <div className="flex items-center justify-center flex-col h-[calc(100vh-4rem)] text-center">
         <p className="font-bold text-xl sm:text-2xl text-gray-800 dark:text-gray-200">
-          You don#39;t have any tasks yet
+          You don&#39;t have any tasks yet
         </p>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2">
           Click on the <b>+</b> button to add one

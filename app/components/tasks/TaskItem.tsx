@@ -63,7 +63,7 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
         <div className="flex-1 space-y-2">
           {/* Pinned Status */}
           {task.pinned && (
-            <div className="flex items-center gap-2 text-xs md:text-sm opacity-75 bg-gray-200 bg-opacity-20 px-2 py-1 rounded-full">
+            <div className="flex items-center gap-2 text-xs md:text-sm opacity-75  px-2 py-1 rounded-full">
               <MdPushPin size={16} />
               <span>Pinned</span>
             </div>
