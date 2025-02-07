@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { BottomMenuBar, DevelopmentAlert, Navbar } from "./components";
+import { BottomMenuBar, Navbar } from "./components";
 import { TaskProvider } from "@/context/TaskProvider";
 import { AppDataProvider } from "@/context/AppDataProvider";
 
