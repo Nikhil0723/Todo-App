@@ -21,7 +21,7 @@ const Page = () => {
   }
 
   return (
-    <div className=" mt-14 flex items-center justify-center">
+    <div className=" mb-14 mt-5 flex items-center justify-center">
       <div className="bg-white p-8 shadow-2xl rounded-3xl md:max-w-screen-md w-full">
         <h1 className="text-center font-bold text-4xl mb-9">Task: {task.name || "No name provided"}</h1>
         <div>

@@ -12,7 +12,6 @@ interface TaskItemProps {
 export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const deadlineDate = task.deadline ? new Date(task.deadline) : null;
-
   const fullDescription = task.description || "";
   const truncatedDescription = fullDescription.slice(0, 100);
 
@@ -22,13 +21,11 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
 
   const highlightText = (text: string, query: string) => {
     if (!query) return text;
-
     const regex = new RegExp(`(${query})`, "gi");
     const parts = text.split(regex);
-
     return parts.map((part, index) =>
       regex.test(part) ? (
-        <span key={index} className="bg-blue-400">
+        <span key={index} className="bg-blue-400 rounded">
           {part}
         </span>
       ) : (
@@ -42,11 +39,9 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
       {/* Main Task Item Container */}
       <div
         style={{ backgroundColor: task.color }}
-        className={`relative z-10 rounded-3xl md:rounded-3xl p-3 text-white flex items-center justify-between space-x-3 transition-all duration-300 ${
-          task.done
-            ? "  opacity-80 border-l-8 border-[#41EC5D]"
-            : ""
-        } md:p-4 md:space-x-5`}
+        className={`relative z-10 rounded-3xl p-4 text-white flex items-center justify-between space-x-4 transition-all duration-300 shadow-lg ${
+          task.done ? "opacity-80 border-l-8 border-[#41EC5D]" : ""
+        }`}
       >
         {/* Completion Toggle */}
         {task.done && (
@@ -65,89 +60,92 @@ export const TaskItem = ({ task, searchQuery }: TaskItemProps) => {
         )}
 
         {/* Task Content */}
-        <div className="flex-1">
+        <div className="flex-1 space-y-2">
+          {/* Pinned Status */}
           {task.pinned && (
-            <div className="flex items-center gap-2 text-xs md:text-base opacity-75 p-1 rounded-full">
-              <MdPushPin size={20} />
-              Pinned
+            <div className="flex items-center gap-2 text-xs md:text-sm opacity-75 bg-gray-200 bg-opacity-20 px-2 py-1 rounded-full">
+              <MdPushPin size={16} />
+              <span>Pinned</span>
             </div>
           )}
+
+          {/* Task Name */}
           <div className="flex items-center justify-between">
-            {/* Highlighted Task Name */}
-            <p className={`font-bold text-base md:text-xl ${ task.done ? "line-through" : ""}`}>
+            <p
+              className={`font-bold text-base md:text-lg ${
+                task.done ? "line-through opacity-70" : ""
+              }`}
+            >
               {highlightText(task.name, searchQuery)}
             </p>
-            <p className="text-sm md:text-sm ">
-              {new Date(task.date).toLocaleTimeString()}
+            <p className="text-xs md:text-sm opacity-70">
+              {new Date(task.date).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
           </div>
 
-          {/* Highlighted Task Description */}
-          {task?.description?.length <= 100 && (
-            <div>
-              <p className={`text-sm font-normal md:text-lg md:font-medium ${ task.done ? "line-through" : ""}`}>
-                {highlightText(task.description, searchQuery)}
-              </p>
-            </div>
-          )}
-
-          {task?.description?.length > 100 && (
+          {/* Task Description */}
+          {task?.description?.length > 0 && (
             <>
               <div>
-                <p className="text-sm font-normal md:text-lg md:font-medium">
+                <p
+                  className={`text-sm md:text-base ${
+                    task.done ? "line-through opacity-70" : ""
+                  }`}
+                >
                   {isExpanded
                     ? highlightText(fullDescription, searchQuery)
                     : highlightText(`${truncatedDescription}...`, searchQuery)}
                 </p>
               </div>
-              <button
-                className="text-sm md:text-base font-extrabold mt-1"
-                onClick={handleToggleDescription}
-              >
-                {isExpanded ? "Show Less" : "Show More"}
-              </button>
+              {task?.description?.length > 100 && (
+                <button
+                  className="text-xs md:text-sm font-semibold text-blue-200 hover:underline"
+                  onClick={handleToggleDescription}
+                >
+                  {isExpanded ? "Show Less" : "Show More"}
+                </button>
+              )}
             </>
           )}
 
           {/* Deadline */}
           {deadlineDate && (
-            <p className="text-xs md:text-sm mt-2 flex items-center space-x-2">
-              <span>
-                <Clock5 className="w-4 h-4 mr-2 md:w-5 md:h-5" />
-              </span>
-              {deadlineDate?.toLocaleString()}
-            </p>
+            <div className="flex items-center space-x-2 text-xs md:text-sm opacity-70">
+              <Clock5 className="w-4 h-4" />
+              <span>{deadlineDate.toLocaleString()}</span>
+            </div>
           )}
 
-          <div className=" flex items-center gap-2 justify-start flex-wrap mt-3">
-            {/* Categories */}
-            {task.category &&
-              task.category.length > 0 &&
-              task.category.map((category) => (
+          {/* Categories */}
+          {task.category && task.category.length > 0 && (
+            <div className="flex items-center gap-2 flex-wrap mt-2">
+              {task.category.map((category) => (
                 <div
                   key={category.id}
-                  className="flex items-center space-x-2 px-2 py-1 md:py-2 md:px-4 rounded-3xl border-[1px]"
-                  style={{ backgroundColor: category.color }}
+                  className="flex items-center space-x-1 px-2 py-1 rounded-full text-xs md:text-sm font-medium transition-all hover:scale-105"
+                  style={{
+                    backgroundColor: category.color,
+                    color: "#fff",
+                  }}
                 >
-                  <span
-                    className="text-sm font-bold"
-                    style={{ color: category.color }}
-                  >
-                    <p className="text-white text-xs md:text-sm font-bold ">
-                      {category.emoji.startsWith("1f") &&
-                      category.emoji.length === 5
-                        ? String.fromCodePoint(parseInt(category.emoji, 16))
-                        : category.emoji}
-                      {category.name}
-                    </p>
+                  <span>
+                    {category.emoji.startsWith("1f") &&
+                    category.emoji.length === 5
+                      ? String.fromCodePoint(parseInt(category.emoji, 16))
+                      : category.emoji}
                   </span>
+                  <span>{category.name}</span>
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Options */}
-        <div>
+        <div className="flex-shrink-0">
           <TaskOptions taskId={task.id} />
         </div>
       </div>
